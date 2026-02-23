@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bourbon Production – L'excellence sonore à votre service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --bg-deep:      #060810;
+      --bg-dark:      #0c0f1a;
+      --bg-card:      #101628;
+      --bg-card-alt:  #131829;
+
+      --gold:         #c9922a;
+      --gold-light:   #e8b84b;
+      --gold-pale:    #f5d98020;
+
+      --blue-night:   #0a1135;
+      --blue-mid:     #112060;
+      --blue-glow:    #1a3a9c30;
+
+      --text-primary: #f0ece4;
+      --text-muted:   #8a8fa8;
+      --text-dim:     #545870;
+
+      --border:       #1e2540;
+      --border-gold:  #c9922a40;
+
+      --radius-sm: 6px;
+      --radius-md: 14px;
+      --radius-lg: 24px;
+
+      --shadow-card: 0 20px 60px #00000070, 0 0 0 1px #1e254080;
+      --shadow-gold: 0 0 40px #c9922a25;
+
+      --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+    }
+
+    .section-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.8;
+    }
+
+    /* ============================================================
+       LAYOUT HELPERS
+    ============================================================ */
+    .container {
+      width: min(1160px, 92vw);
+      margin-inline: auto;
+    }
+
+    section {
+      padding-block: 110px;
+      position: relative;
+    }
+
+    /* ============================================================
+       GOLD LINE ACCENT
+    ============================================================ */
+    .gold-line {
+      display: inline-block;
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 1.4rem;
+      border-radius: 2px;
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.2rem 0;
+      background: linear-gradient(180deg, #060810f0 0%, #06081000 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    nav.scrolled {
+      background: #060810f2;
+      border-bottom-color: var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-logo span {
+      color: var(--gold);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.4rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color var(--transition);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--text-primary);
+      transition: var(--transition);
+    }
+
+    /* Mobile nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg-deep);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color var(--transition);
+    }
+    .mobile-nav a:hover { color: var(--gold); }
+
+    /* ============================================================
+       BUTTONS
+    ============================================================ */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 2.2rem;
+      background: linear-gradient(135deg, var(--gold) 0%, #a87020 100%);
+      color: #060810;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px #c9922a50; }
+    .btn-primary span { position: relative; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.8rem 2rem;
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-outline:hover {
+      background: var(--gold-pale);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-block: 0;
+    }
+
+    /* Background layers */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 60% 40%, var(--blue-glow) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, #c9922a08 0%, transparent 50%),
+        linear-gradient(160deg, var(--blue-night) 0%, var(--bg-deep) 50%, #0a0204 100%);
+    }
+
+    /* Subtle grid pattern */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.18;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
+    }
+
+    /* Glowing orb */
+    .hero-orb {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      right: -100px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: radial-gradient(circle, #1a3a9c18 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translateY(-50%) scale(1); }
+      50%       { opacity: 1;   transform: translateY(-50%) scale(1.08); }
+    }
+
+    /* Waveform decoration */
+    .hero-wave {
+      position: absolute;
+      bottom: 60px;
+      left: 0;
+      right: 0;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      opacity: 0.2;
+    }
+
+    .hero-wave-bar {
+      width: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      animation: wave-anim 1.4s ease-in-out infinite;
+    }
+
+    @keyframes wave-anim {
+      0%, 100% { transform: scaleY(0.3); }
+      50%       { transform: scaleY(1); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding-top: 100px;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fade-up 0.8s 0.2s forwards;
+    }
+
+    .hero-eyebrow-line {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-eyebrow-text {
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: 1.05;
+      margin-bottom: 0.4rem;
+      opacity: 0;
+      animation: fade-up 0.9s 0.35s forwards;
+    }
+
+    .hero-title-sub {
+      font-size: clamp(1.6rem, 4vw, 3rem);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--gold-light);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fade-up 0.9s 0.5s forwards;
+    }
+
+    .hero-slogan {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.9;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fade-up 0.9s 0.65s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fade-up 0.9s 0.8s forwards;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      z-index: 2;
+      animation: bounce 2s infinite;
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, var(--text-dim), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       SECTION HEADER
+    ============================================================ */
+    .section-header {
+      margin-bottom: 5rem;
+    }
+
+    .section-header.centered {
+      text-align: center;
+    }
+
+    .section-header.centered .section-subtitle {
+      margin-inline: auto;
+    }
+
+    /* ============================================================
+       SERVICES SECTION
+    ============================================================ */
+    #services {
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, var(--blue-glow) 0%, transparent 60%),
+        var(--bg-dark);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    /* Pack card */
+    .pack-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.8rem 2.2rem;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .pack-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .pack-card:hover {
+      border-color: var(--border-gold);
+      box-shadow: var(--shadow-card), var(--shadow-gold);
+      background: var(--bg-card-alt);
+      transform: translateY(-6px) !important;
+    }
+
+    /* Card accent glow on hover */
+    .pack-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .pack-card:hover::before { opacity: 1; }
+
+    /* Featured badge */
+    .pack-card.featured {
+      border-color: var(--border-gold);
+      background: linear-gradient(160deg, #141c35 0%, var(--bg-card) 100%);
+    }
+
+    .pack-card.featured::before { opacity: 0.6; }
+
+    .pack-badge {
+      display: inline-block;
+      padding: 0.28rem 0.9rem;
+      background: linear-gradient(135deg, var(--gold), #8a6018);
+      color: #060810;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border-radius: 30px;
+      margin-bottom: 1.4rem;
+    }
+
+    .pack-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+
+    .pack-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .pack-price sup {
+      font-size: 1.8rem;
+      vertical-align: top;
+      margin-top: 0.5rem;
+      color: var(--gold);
+    }
+
+    .pack-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 1.8rem 0;
+    }
+
+    .pack-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex: 1;
+      margin-bottom: 2.2rem;
+    }
+
+    .pack-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .pack-features li::before {
+      content: '';
+      display: block;
+      flex-shrink: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 0.5rem;
+    }
+
+    .pack-features li.highlight {
+      color: var(--text-primary);
+    }
+
+    /* ============================================================
+       ABOUT SECTION
+    ============================================================ */
+    #about {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-visual-main {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background:
+        radial-gradient(ellipse 60% 60% at 50% 40%, #1a3a9c22 0%, transparent 70%),
+        linear-gradient(160deg, #0d1630 0%, #060810 100%);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Vinyl disc decoration */
+    .vinyl {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, #1a1a1a 28%, #222 30%, #0c0c0c 60%, #1a1a1a 62%, #0c0c0c 100%);
+      border: 1px solid #333;
+      position: relative;
+      animation: spin 12s linear infinite;
+      box-shadow: 0 0 60px #00000090, 0 0 0 2px #c9922a20;
+    }
+
+    .vinyl::before {
+      content: '';
+      position: absolute;
+      inset: 30%;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--gold) 0%, #8a6018 100%);
+      box-shadow: 0 0 20px #c9922a60;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Sound bars */
+    .sound-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 50px;
+    }
+
+    .sound-bar {
+      width: 4px;
+      background: linear-gradient(180deg, var(--gold-light), var(--gold));
+      border-radius: 2px;
+      animation: bar-anim 0.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes bar-anim {
+      from { transform: scaleY(0.2); }
+      to   { transform: scaleY(1); }
+    }
+
+    .about-stat-row {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .about-stat {
+      text-align: center;
+      flex: 1;
+      padding: 1.4rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+
+    .about-stat:hover {
+      border-color: var(--border-gold);
+      box-shadow: var(--shadow-gold);
+    }
+
+    .about-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.4rem;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+
+    .about-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-top: 0.3rem;
+    }
+
+    .about-body p {
+      color: var(--text-muted);
+      line-height: 1.95;
+      margin-bottom: 1.2rem;
+    }
+
+    .about-values {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2.5rem;
+    }
+
+    .about-value {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      padding: 1.2rem 1.4rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+
+    .about-value:hover {
+      border-color: var(--border-gold);
+      transform: translateX(6px);
+    }
+
+    .about-value-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: 0.1rem;
+    }
+
+    .about-value-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .about-value-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CONTACT SECTION
+    ============================================================ */
+    #contact {
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 100%, var(--blue-glow) 0%, transparent 60%),
+        var(--bg-dark);
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-info {
+      padding-top: 0.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .contact-item:last-child { border-bottom: none; }
+
+    .contact-item-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gold-pale);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+
+    .contact-item-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .contact-item-value {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Form */
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.8rem;
+      transition: var(--transition);
+    }
+
+    .contact-form:hover {
+      border-color: var(--border-gold);
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--bg-deep);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.9rem 1.2rem;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      appearance: none;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px #c9922a15;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--text-dim);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: #040609;
+      border-top: 1px solid var(--border);
+      padding-block: 3.5rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      color: var(--text-primary);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-brand span { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      width: 42px;
+      height: 42px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      border-color: var(--border-gold);
+      color: var(--gold);
+      background: var(--gold-pale);
+      transform: translateY(-3px);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.8rem;
+    }
+
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ============================================================
+       SCROLL REVEAL UTILITY
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1024px) {
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
+      .about-visual { max-width: 420px; margin: 0 auto; }
+      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding-block: 70px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .services-grid { grid-template-columns: 1fr; max-width: 440px; margin-inline: auto; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .footer-links { flex-wrap: wrap; }
+      .about-stat-row { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; }
+      .contact-form { padding: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">Bourbon<span>&nbsp;Production</span></a>
+      <ul class="nav-links">
+        <li><a href="#services">Offres</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger" aria-label="Menu" role="button" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#services" onclick="closeMobileNav()">Offres</a>
+    <a href="#about"    onclick="closeMobileNav()">À propos</a>
+    <a href="#contact"  onclick="closeMobileNav()">Contact</a>
+  </div>
+
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-orb"></div>
+
+    <!-- Animated waveform decoration -->
+    <div class="hero-wave" aria-hidden="true">
+      <!-- JS will populate bars -->
+    </div>
+
+    <div class="container hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Studio de Production Musicale</span>
+      </div>
+      <h1 class="hero-title">Bourbon<br>Production</h1>
+      <p class="hero-title-sub">L'excellence sonore à votre service</p>
+      <p class="hero-slogan">
+        Mix, mastering et production musicale de haute qualité — chaque projet traité avec précision, passion et professionnalisme.
+      </p>
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary"><span>Découvrir nos offres</span></a>
+        <a href="#contact"  class="btn-outline">Nous contacter</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true">
+      <div class="hero-scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section id="services">
+    <div class="container">
+      <div class="section-header centered reveal">
+        <div class="gold-line"></div>
+        <p class="section-label">Nos offres</p>
+        <h2 class="section-title">Choisissez votre pack</h2>
+        <p class="section-subtitle">Des formules adaptées à chaque étape de votre projet, du mix à la distribution digitale.</p>
+      </div>
+
+      <div class="services-grid">
+
+        <!-- PACK STANDARD -->
+        <article class="pack-card" style="transition-delay: 0.1s">
+          <p class="pack-name">Pack Standard</p>
+          <div class="pack-price"><sup>€</sup>40</div>
+          <div class="pack-divider"></div>
+          <ul class="pack-features">
+            <li>Mix Voix (3 pistes max)</li>
+            <li>Nettoyage Audio</li>
+            <li>Compatibilité Support</li>
+            <li>2 Retouches incluses</li>
+            <li class="highlight">Mastering <strong style="color:var(--gold)">OFFERT</strong></li>
+          </ul>
+          <a href="#contact" class="btn-outline">Choisir ce pack</a>
+        </article>
+
+        <!-- PACK PROFESSIONNEL (featured) -->
+        <article class="pack-card featured" style="transition-delay: 0.2s">
+          <div class="pack-badge">Populaire</div>
+          <p class="pack-name">Pack Professionnel</p>
+          <div class="pack-price"><sup>€</sup>60</div>
+          <div class="pack-divider"></div>
+          <ul class="pack-features">
+            <li>Mix pro complet</li>
+            <li>10 pistes max</li>
+            <li>Nettoyage pro Audio</li>
+            <li>Mastering pro</li>
+            <li>5 retouches incluses</li>
+            <li>Arrangement détaillé et minutieux</li>
+            <li class="highlight">–10% sur prochain pack</li>
+          </ul>
+          <a href="#contact" class="btn-primary"><span>Choisir ce pack</span></a>
+        </article>
+
+        <!-- PACK AVANCÉ -->
+        <article class="pack-card" style="transition-delay: 0.3s">
+          <p class="pack-name">Pack Avancé</p>
+          <div class="pack-price"><sup>€</sup>90</div>
+          <div class="pack-divider"></div>
+          <ul class="pack-features">
+            <li>Mix avancé complet</li>
+            <li>Pistes illimitées</li>
+            <li>Nettoyage avancé</li>
+            <li>Mastering avancé</li>
+            <li>Retouches + suivi personnalisé</li>
+            <li>Traitement minutieux</li>
+            <li>Distribution digitale <em style="color:var(--text-dim)">(sous condition)</em></li>
+            <li class="highlight">–15% sur prochain pack</li>
+          </ul>
+          <a href="#contact" class="btn-outline">Choisir ce pack</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+
+        <!-- Visual column -->
+        <div class="about-visual reveal">
+          <div class="about-visual-main">
+            <div class="vinyl" aria-hidden="true"></div>
+            <div class="sound-bars" id="soundBars" aria-hidden="true"></div>
+          </div>
+          <div class="about-stat-row">
+            <div class="about-stat">
+              <div class="about-stat-num">200+</div>
+              <div class="about-stat-label">Projets livrés</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-num">5★</div>
+              <div class="about-stat-label">Satisfaction</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-num">72h</div>
+              <div class="about-stat-label">Délai moyen</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Text column -->
+        <div class="about-body reveal">
+          <div class="gold-line"></div>
+          <p class="section-label">À propos</p>
+          <h2 class="section-title">Une oreille d'exception, au service de votre musique</h2>
+          <p>
+            Bourbon Production est née d'une passion profonde pour le son et d'une exigence absolue de qualité. Notre studio accompagne artistes émergents comme confirmés dans la réalisation de projets musicaux qui marquent les esprits.
+          </p>
+          <p>
+            Chaque piste reçoit une attention méticuleuse — des basses les plus profondes aux aigus les plus fins. Nous croyons que derrière chaque note se cache une émotion à révéler, et notre rôle est de vous aider à la transmettre avec clarté et puissance.
+          </p>
+
+          <div class="about-values">
+            <div class="about-value">
+              <div class="about-value-icon">🎚</div>
+              <div>
+                <div class="about-value-title">Précision technique</div>
+                <div class="about-value-desc">Mix et mastering aux standards de l'industrie, pour un rendu professionnel sur tous supports.</div>
+              </div>
+            </div>
+            <div class="about-value">
+              <div class="about-value-icon">🎯</div>
+              <div>
+                <div class="about-value-title">Accompagnement personnalisé</div>
+                <div class="about-value-desc">Un suivi humain et attentif, du premier échange à la livraison finale.</div>
+              </div>
+            </div>
+            <div class="about-value">
+              <div class="about-value-icon">✨</div>
+              <div>
+                <div class="about-value-title">Créativité sans limite</div>
+                <div class="about-value-desc">Nous apportons une vision artistique qui valorise votre identité sonore unique.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="gold-line"></div>
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Lançons votre projet</h2>
+        <p class="section-subtitle">Décrivez-nous votre projet et nous revenons vers vous sous 24h.</p>
+      </div>
+
+      <div class="contact-layout">
+
+        <!-- Info column -->
+        <div class="contact-info reveal">
+          <div class="contact-item">
+            <div class="contact-item-icon">📧</div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-value">contact@bourbon-production.fr</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📱</div>
+            <div>
+              <div class="contact-item-label">Téléphone</div>
+              <div class="contact-item-value">+33 6 00 00 00 00</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Localisation</div>
+              <div class="contact-item-value">La Réunion – France</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">🕐</div>
+            <div>
+              <div class="contact-item-label">Disponibilité</div>
+              <div class="contact-item-value">Lun–Sam, 9h – 19h</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="reveal">
+          <form class="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="name">Nom</label>
+                <input class="form-input" id="name" type="text" placeholder="Votre nom" autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-input" id="email" type="email" placeholder="votre@email.com" autocomplete="email" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pack">Pack souhaité</label>
+              <input class="form-input" id="pack" type="text" placeholder="Standard / Professionnel / Avancé" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="message">Votre projet</label>
+              <textarea class="form-textarea" id="message" placeholder="Décrivez votre projet, vos besoins, vos délais…"></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%; justify-content:center">
+              <span>Envoyer le message</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <div class="container footer-inner">
+
+      <div>
+        <div class="footer-brand">Bourbon<span>&nbsp;Production</span></div>
+        <div class="footer-copy">© 2025 Bourbon Production. Tous droits réservés.</div>
+      </div>
+
+      <div class="footer-socials">
+        <!-- Instagram -->
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="#" class="social-link" aria-label="YouTube">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <!-- SoundCloud -->
+        <a href="#" class="social-link" aria-label="SoundCloud">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M1.175 12.225c-.017 0-.034.002-.051.004A.6.6 0 0 0 .6 12.8v.05l.522 3.4-.522 3.25a.6.6 0 0 0 .524.662c.017.002.034.003.051.003.298 0 .54-.22.574-.518L2.2 16.25l-.451-3.55a.576.576 0 0 0-.574-.475zm2.3-.25a.613.613 0 0 0-.613.6L2.538 16.2l.324 3.525c.016.321.28.575.613.575a.613.613 0 0 0 .613-.575L4.4 16.2l-.313-3.625a.613.613 0 0 0-.612-.6zm2.3-.35a.65.65 0 0 0-.65.65L4.8 16.2l.325 3.8c.01.352.29.625.65.625a.65.65 0 0 0 .65-.625l.363-3.8-.363-3.925a.65.65 0 0 0-.65-.65zm2.313-.237a.688.688 0 0 0-.688.688L7.075 16.2l.325 4.075a.688.688 0 0 0 1.375 0L9.1 16.2 8.775 12.076a.688.688 0 0 0-.687-.688zm2.262.025a.725.725 0 0 0-.725.725L9.3 16.2l.325 4.3a.725.725 0 0 0 1.45 0l.363-4.3-.363-3.787a.725.725 0 0 0-.725-.75zm2.3-.475a.762.762 0 0 0-.763.763l-.337 3.5.337 4.5a.762.762 0 0 0 1.525 0l.375-4.5-.375-3.5a.763.763 0 0 0-.762-.763zm2.3.325a.8.8 0 0 0-.8.8l-.325 3.175.325 4.7a.8.8 0 0 0 1.6 0l.363-4.7-.363-3.175a.8.8 0 0 0-.8-.8zm2.087-.05a.837.837 0 0 0-.837.838l-.313 3.225.313 4.887a.838.838 0 0 0 1.675 0l.35-4.887-.35-3.225a.837.837 0 0 0-.838-.838zm2.213-.225a.875.875 0 0 0-.875.875l-.3 3.45.3 4.975a.875.875 0 0 0 1.75 0l.338-4.975-.338-3.45a.875.875 0 0 0-.875-.875zm2.05 1.35c-.45 0-.875.15-1.2.4A5.95 5.95 0 0 0 18 11.1a5.95 5.95 0 0 0-5.95-5.95c-.437 0-.862.05-1.275.138V20.55h11.463C23.212 20.55 24 19.762 24 18.8a2.75 2.75 0 0 0-2.75-2.75z"/>
+          </svg>
+        </a>
+        <!-- Facebook -->
+        <a href="#" class="social-link" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="footer-links">
+        <a href="#">Mentions légales</a>
+        <a href="#">Politique de confidentialité</a>
+        <a href="#">CGV</a>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       JAVASCRIPT (UX enhancements)
+  ============================================================ -->
+  <script>
+    // --- Navbar scroll state ---
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // --- Hamburger / mobile nav ---
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    hamburger.addEventListener('keydown', e => { if (e.key === 'Enter') mobileNav.classList.toggle('open'); });
+    function closeMobileNav() { mobileNav.classList.remove('open'); }
+
+    // --- Hero waveform bars ---
+    const waveContainer = document.querySelector('.hero-wave');
+    for (let i = 0; i < 60; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'hero-wave-bar';
+      const h = Math.random() * 60 + 10;
+      bar.style.height = h + 'px';
+      bar.style.animationDelay = (Math.random() * 1.4) + 's';
+      bar.style.animationDuration = (0.7 + Math.random() * 0.8) + 's';
+      bar.style.opacity = (0.3 + Math.random() * 0.7);
+      waveContainer.appendChild(bar);
+    }
+
+    // --- Sound bars (about section) ---
+    const soundBars = document.getElementById('soundBars');
+    const barHeights = [20, 35, 50, 38, 62, 45, 70, 55, 40, 28, 48, 65, 30, 52, 44];
+    barHeights.forEach((h, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'sound-bar';
+      bar.style.height = h + 'px';
+      bar.style.animationDelay = (i * 0.06) + 's';
+      bar.style.animationDuration = (0.5 + Math.random() * 0.6) + 's';
+      soundBars.appendChild(bar);
+    });
+
+    // --- Scroll reveal (IntersectionObserver) ---
+    const revealEls = document.querySelectorAll('.reveal, .pack-card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // --- Contact form feedback ---
+    document.querySelector('.contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type=submit]');
+      btn.style.opacity = '0.6';
+      btn.disabled = true;
+      btn.querySelector('span').textContent = 'Envoi en cours…';
+      setTimeout(() => {
+        btn.querySelector('span').textContent = 'Message envoyé ✓';
+        btn.style.opacity = '1';
+      }, 1500);
+    });
+  </script>
+
+</body>
+</html>
