@@ -3,538 +3,284 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bourbon Production – L'excellence sonore à votre service</title>
+  <title>Bourbon Production — Mix & Mastering</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
-    /* ============================================================
-       CSS VARIABLES & RESET
-    ============================================================ */
+    /* ─── CSS Variables ─────────────────────────────────────────── */
     :root {
-      --bg-deep:      #060810;
-      --bg-dark:      #0c0f1a;
-      --bg-card:      #101628;
-      --bg-card-alt:  #131829;
-
-      --gold:         #c9922a;
-      --gold-light:   #e8b84b;
-      --gold-pale:    #f5d98020;
-
-      --blue-night:   #0a1135;
-      --blue-mid:     #112060;
-      --blue-glow:    #1a3a9c30;
-
-      --text-primary: #f0ece4;
-      --text-muted:   #8a8fa8;
-      --text-dim:     #545870;
-
-      --border:       #1e2540;
-      --border-gold:  #c9922a40;
-
-      --radius-sm: 6px;
-      --radius-md: 14px;
-      --radius-lg: 24px;
-
-      --shadow-card: 0 20px 60px #00000070, 0 0 0 1px #1e254080;
-      --shadow-gold: 0 0 40px #c9922a25;
-
-      --transition: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --bg-deep:    #07090f;
+      --bg-dark:    #0c0f1a;
+      --bg-card:    #101527;
+      --bg-card2:   #131828;
+      --gold:       #c9a84c;
+      --gold-light: #e4c577;
+      --gold-dim:   rgba(201,168,76,0.12);
+      --gold-border:rgba(201,168,76,0.25);
+      --text-main:  #e8e4d9;
+      --text-muted: #8a8fa8;
+      --text-sub:   #b0b5cc;
+      --white:      #ffffff;
+      --nav-h:      72px;
+      --radius:     14px;
+      --transition: 0.35s cubic-bezier(0.25,0.8,0.25,1);
     }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
+    /* ─── Reset ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      background-color: var(--bg-deep);
-      color: var(--text-primary);
-      font-family: 'Outfit', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
+      font-family: 'Jost', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-main);
       overflow-x: hidden;
+      line-height: 1.7;
+    }
+    ::selection { background: var(--gold); color: var(--bg-deep); }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── Noise overlay ─────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
     }
 
-    /* ============================================================
-       SCROLLBAR
-    ============================================================ */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
-
-    /* ============================================================
-       TYPOGRAPHY
-    ============================================================ */
-    h1, h2, h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      letter-spacing: 0.02em;
-      line-height: 1.15;
-    }
-
+    /* ─── Utility ───────────────────────────────────────────────── */
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 2rem; }
+    .gold { color: var(--gold); }
     .section-label {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.25em;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 1rem;
     }
-
     .section-title {
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      color: var(--text-primary);
-      margin-bottom: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
     }
 
-    .section-subtitle {
-      font-size: 1rem;
-      color: var(--text-muted);
-      max-width: 520px;
-      line-height: 1.8;
-    }
-
-    /* ============================================================
-       LAYOUT HELPERS
-    ============================================================ */
-    .container {
-      width: min(1160px, 92vw);
-      margin-inline: auto;
-    }
-
-    section {
-      padding-block: 110px;
-      position: relative;
-    }
-
-    /* ============================================================
-       GOLD LINE ACCENT
-    ============================================================ */
-    .gold-line {
-      display: inline-block;
-      width: 48px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      margin-bottom: 1.4rem;
-      border-radius: 2px;
-    }
-
-    /* ============================================================
-       NAVIGATION
-    ============================================================ */
+    /* ─── NAV ───────────────────────────────────────────────────── */
     nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1.2rem 0;
-      background: linear-gradient(180deg, #060810f0 0%, #06081000 100%);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s, background 0.3s;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 1000;
+      backdrop-filter: blur(18px) saturate(1.4);
+      -webkit-backdrop-filter: blur(18px) saturate(1.4);
+      background: rgba(7,9,15,0.82);
+      border-bottom: 1px solid var(--gold-border);
+      transition: background var(--transition);
     }
-
-    nav.scrolled {
-      background: #060810f2;
-      border-bottom-color: var(--border);
-    }
-
     .nav-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      height: 100%;
     }
-
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      text-decoration: none;
-      letter-spacing: 0.06em;
-    }
-
-    .nav-logo span {
-      color: var(--gold);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.4rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 0.85rem;
+      font-size: 1.35rem;
       font-weight: 400;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: color var(--transition);
-      position: relative;
+      letter-spacing: 0.05em;
+      color: var(--white);
     }
-
+    .nav-logo span { color: var(--gold); font-style: italic; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      position: relative;
+      padding-bottom: 4px;
+      transition: color var(--transition);
+    }
     .nav-links a::after {
       content: '';
       position: absolute;
-      left: 0; bottom: -4px;
+      bottom: 0; left: 0;
       width: 0; height: 1px;
       background: var(--gold);
       transition: width var(--transition);
     }
-
-    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a:hover { color: var(--gold); }
     .nav-links a:hover::after { width: 100%; }
 
     /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .hamburger span {
-      display: block;
-      width: 24px;
-      height: 1.5px;
-      background: var(--text-primary);
-      transition: var(--transition);
-    }
+    .nav-burger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-burger span { display: block; width: 22px; height: 1.5px; background: var(--text-main); transition: var(--transition); }
 
-    /* Mobile nav */
-    .mobile-nav {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: var(--bg-deep);
-      z-index: 99;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2.5rem;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.2rem;
-      color: var(--text-primary);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      transition: color var(--transition);
-    }
-    .mobile-nav a:hover { color: var(--gold); }
-
-    /* ============================================================
-       BUTTONS
-    ============================================================ */
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.85rem 2.2rem;
-      background: linear-gradient(135deg, var(--gold) 0%, #a87020 100%);
-      color: #060810;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: none;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
-      opacity: 0;
-      transition: opacity var(--transition);
-    }
-
-    .btn-primary:hover::before { opacity: 1; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px #c9922a50; }
-    .btn-primary span { position: relative; }
-
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.8rem 2rem;
-      background: transparent;
-      color: var(--gold);
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-decoration: none;
-      border: 1px solid var(--border-gold);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .btn-outline:hover {
-      background: var(--gold-pale);
-      border-color: var(--gold);
-      transform: translateY(-2px);
-    }
-
-    /* ============================================================
-       HERO SECTION
-    ============================================================ */
-    #hero {
+    /* ─── HERO ──────────────────────────────────────────────────── */
+    .hero {
       min-height: 100vh;
       display: flex;
       align-items: center;
       position: relative;
       overflow: hidden;
-      padding-block: 0;
+      padding-top: var(--nav-h);
     }
-
-    /* Background layers */
     .hero-bg {
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 60% 40%, var(--blue-glow) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 20% 80%, #c9922a08 0%, transparent 50%),
-        linear-gradient(160deg, var(--blue-night) 0%, var(--bg-deep) 50%, #0a0204 100%);
+        radial-gradient(ellipse 80% 70% at 60% 50%, rgba(201,168,76,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 10% 80%, rgba(10,20,60,0.6) 0%, transparent 60%),
+        linear-gradient(160deg, #07090f 30%, #0e1428 70%, #07090f 100%);
     }
-
-    /* Subtle grid pattern */
-    .hero-grid {
+    .hero-line {
       position: absolute;
-      inset: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 60px 60px;
-      opacity: 0.18;
+        linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+      background-size: 80px 80px;
       mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent);
     }
-
-    /* Glowing orb */
-    .hero-orb {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      right: -100px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: radial-gradient(circle, #1a3a9c18 0%, transparent 70%);
-      border-radius: 50%;
-      animation: pulse 6s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; transform: translateY(-50%) scale(1); }
-      50%       { opacity: 1;   transform: translateY(-50%) scale(1.08); }
-    }
-
-    /* Waveform decoration */
-    .hero-wave {
-      position: absolute;
-      bottom: 60px;
-      left: 0;
-      right: 0;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-      opacity: 0.2;
-    }
-
-    .hero-wave-bar {
-      width: 2px;
-      background: var(--gold);
-      border-radius: 2px;
-      animation: wave-anim 1.4s ease-in-out infinite;
-    }
-
-    @keyframes wave-anim {
-      0%, 100% { transform: scaleY(0.3); }
-      50%       { transform: scaleY(1); }
-    }
-
     .hero-content {
       position: relative;
-      z-index: 2;
-      padding-top: 100px;
+      z-index: 1;
+      max-width: 750px;
     }
-
     .hero-eyebrow {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 1.8rem;
-      opacity: 0;
-      animation: fade-up 0.8s 0.2s forwards;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.9s ease both;
     }
-
-    .hero-eyebrow-line {
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      display: block;
       width: 40px;
       height: 1px;
       background: var(--gold);
+      opacity: 0.6;
     }
-
-    .hero-eyebrow-text {
-      font-size: 0.78rem;
-      letter-spacing: 0.28em;
+    .hero-eyebrow span {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
       text-transform: uppercase;
       color: var(--gold);
       font-weight: 500;
     }
-
     .hero-title {
-      font-size: clamp(3rem, 8vw, 6.5rem);
-      line-height: 1.05;
-      margin-bottom: 0.4rem;
-      opacity: 0;
-      animation: fade-up 0.9s 0.35s forwards;
-    }
-
-    .hero-title-sub {
-      font-size: clamp(1.6rem, 4vw, 3rem);
       font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
+      font-size: clamp(3.5rem, 9vw, 7rem);
       font-weight: 300;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+      animation: fadeUp 0.9s 0.15s ease both;
+    }
+    .hero-title em {
+      font-style: italic;
       color: var(--gold-light);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fade-up 0.9s 0.5s forwards;
+      display: block;
     }
-
-    .hero-slogan {
-      font-size: clamp(1rem, 2vw, 1.25rem);
-      color: var(--text-muted);
-      max-width: 480px;
-      line-height: 1.9;
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fade-up 0.9s 0.65s forwards;
+    .hero-subtitle {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-sub);
+      margin: 1.8rem 0 3rem;
+      max-width: 500px;
+      line-height: 1.8;
+      animation: fadeUp 0.9s 0.3s ease both;
     }
-
-    .hero-actions {
+    .hero-subtitle strong { color: var(--gold); font-weight: 500; }
+    .hero-cta {
       display: flex;
       gap: 1.2rem;
       flex-wrap: wrap;
-      opacity: 0;
-      animation: fade-up 0.9s 0.8s forwards;
+      animation: fadeUp 0.9s 0.45s ease both;
     }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
+    .btn {
+      display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      color: var(--text-dim);
-      font-size: 0.7rem;
+      gap: 0.6rem;
+      padding: 0.9rem 2.2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      z-index: 2;
-      animation: bounce 2s infinite;
+      border-radius: 2px;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: var(--bg-deep);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,168,76,0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--gold-border);
+    }
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-dim);
+      transform: translateY(-2px);
     }
 
-    .hero-scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(180deg, var(--text-dim), transparent);
-    }
+    /* Scroll indicator removed */
 
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(6px); }
+    /* ─── SECTION WRAPPER ───────────────────────────────────────── */
+    .section {
+      padding: 7rem 0;
+      position: relative;
     }
-
-    @keyframes fade-up {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ============================================================
-       SECTION HEADER
-    ============================================================ */
     .section-header {
-      margin-bottom: 5rem;
-    }
-
-    .section-header.centered {
       text-align: center;
+      margin-bottom: 4rem;
+    }
+    .section-divider {
+      width: 60px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.5rem auto 0;
     }
 
-    .section-header.centered .section-subtitle {
-      margin-inline: auto;
-    }
-
-    /* ============================================================
-       SERVICES SECTION
-    ============================================================ */
-    #services {
-      background:
-        radial-gradient(ellipse 60% 50% at 50% 0%, var(--blue-glow) 0%, transparent 60%),
-        var(--bg-dark);
-    }
-
-    .services-grid {
+    /* ─── PACKS ─────────────────────────────────────────────────── */
+    #offres { background: var(--bg-dark); }
+    /* ─── PACKS ─────────────────────────────────────────────────── */
+    .packs-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+      gap: 1.5rem;
+      align-items: stretch;
     }
-
-    /* Pack card */
     .pack-card {
       background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2.8rem 2.2rem;
+      border: 1px solid var(--gold-border);
+      border-radius: 18px;
+      padding: 2rem 1.8rem 1.8rem;
       position: relative;
       overflow: hidden;
       transition: var(--transition);
       display: flex;
       flex-direction: column;
-      opacity: 0;
-      transform: translateY(30px);
     }
-
-    .pack-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow var(--transition), border-color var(--transition), background var(--transition);
-    }
-
-    .pack-card:hover {
-      border-color: var(--border-gold);
-      box-shadow: var(--shadow-card), var(--shadow-gold);
-      background: var(--bg-card-alt);
-      transform: translateY(-6px) !important;
-    }
-
-    /* Card accent glow on hover */
     .pack-card::before {
       content: '';
       position: absolute;
@@ -544,891 +290,838 @@
       opacity: 0;
       transition: opacity var(--transition);
     }
+    .pack-card:hover {
+      border-color: rgba(201,168,76,0.5);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1);
+      transform: translateY(-5px);
+    }
     .pack-card:hover::before { opacity: 1; }
-
-    /* Featured badge */
     .pack-card.featured {
-      border-color: var(--border-gold);
+      border-color: rgba(201,168,76,0.4);
       background: linear-gradient(160deg, #141c35 0%, var(--bg-card) 100%);
     }
-
     .pack-card.featured::before { opacity: 0.6; }
 
     .pack-badge {
       display: inline-block;
-      padding: 0.28rem 0.9rem;
+      padding: 0.25rem 0.85rem;
       background: linear-gradient(135deg, var(--gold), #8a6018);
-      color: #060810;
-      font-size: 0.68rem;
+      color: var(--bg-deep);
+      font-size: 0.65rem;
       font-weight: 700;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       border-radius: 30px;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1rem;
     }
-
     .pack-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.75rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem;
       font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--gold);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
-
     .pack-price {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 4rem;
+      font-size: 3.4rem;
       font-weight: 300;
       line-height: 1;
-      color: var(--text-primary);
-      margin-bottom: 0.2rem;
+      color: var(--text-main);
+      margin-bottom: 0.15rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 0.2rem;
     }
-
-    .pack-price sup {
-      font-size: 1.8rem;
-      vertical-align: top;
-      margin-top: 0.5rem;
+    .pack-price sub {
+      font-size: 1.1rem;
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
       color: var(--gold);
+      margin-bottom: 0.4rem;
     }
-
     .pack-divider {
       width: 100%;
       height: 1px;
-      background: var(--border);
-      margin: 1.8rem 0;
+      background: rgba(255,255,255,0.07);
+      margin: 1.2rem 0;
     }
-
     .pack-features {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0.6rem;
       flex: 1;
-      margin-bottom: 2.2rem;
+      margin-bottom: 1.4rem;
     }
-
     .pack-features li {
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.5;
+      gap: 0.65rem;
+      font-size: 0.86rem;
+      font-weight: 300;
+      color: var(--text-sub);
+      line-height: 1.4;
     }
-
     .pack-features li::before {
       content: '';
       display: block;
       flex-shrink: 0;
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: var(--gold);
-      margin-top: 0.5rem;
+      margin-top: 0.45rem;
     }
-
-    .pack-features li.highlight {
-      color: var(--text-primary);
-    }
-
-    /* ============================================================
-       ABOUT SECTION
-    ============================================================ */
-    #about {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: center;
-    }
-
-    .about-visual {
-      position: relative;
-    }
-
-    .about-visual-main {
-      width: 100%;
-      aspect-ratio: 4/5;
-      background:
-        radial-gradient(ellipse 60% 60% at 50% 40%, #1a3a9c22 0%, transparent 70%),
-        linear-gradient(160deg, #0d1630 0%, #060810 100%);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Vinyl disc decoration */
-    .vinyl {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at center, #1a1a1a 28%, #222 30%, #0c0c0c 60%, #1a1a1a 62%, #0c0c0c 100%);
-      border: 1px solid #333;
-      position: relative;
-      animation: spin 12s linear infinite;
-      box-shadow: 0 0 60px #00000090, 0 0 0 2px #c9922a20;
-    }
-
-    .vinyl::before {
-      content: '';
-      position: absolute;
-      inset: 30%;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--gold) 0%, #8a6018 100%);
-      box-shadow: 0 0 20px #c9922a60;
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    /* Sound bars */
-    .sound-bars {
-      display: flex;
-      align-items: flex-end;
-      gap: 5px;
-      height: 50px;
-    }
-
-    .sound-bar {
-      width: 4px;
-      background: linear-gradient(180deg, var(--gold-light), var(--gold));
-      border-radius: 2px;
-      animation: bar-anim 0.8s ease-in-out infinite alternate;
-    }
-
-    @keyframes bar-anim {
-      from { transform: scaleY(0.2); }
-      to   { transform: scaleY(1); }
-    }
-
-    .about-stat-row {
-      display: flex;
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .about-stat {
-      text-align: center;
-      flex: 1;
-      padding: 1.4rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      transition: var(--transition);
-    }
-
-    .about-stat:hover {
-      border-color: var(--border-gold);
-      box-shadow: var(--shadow-gold);
-    }
-
-    .about-stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.4rem;
+    .pack-features li.highlight { color: var(--text-main); }
+    .pack-bonus {
+      background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.06));
+      border: 1px solid rgba(201,168,76,0.3);
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.2rem;
+      font-size: 0.82rem;
       color: var(--gold-light);
-      line-height: 1;
     }
-
-    .about-stat-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
-      margin-top: 0.3rem;
+    .pack-bonus strong {
+      display: block;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+      color: var(--gold);
     }
-
-    .about-body p {
-      color: var(--text-muted);
-      line-height: 1.95;
+    .pack-fidelite {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--text-main);
+      font-style: normal;
+      font-weight: 500;
+      background: rgba(201,168,76,0.07);
+      border: 1px solid rgba(201,168,76,0.15);
+      border-radius: 6px;
+      padding: 0.5rem 0.85rem;
       margin-bottom: 1.2rem;
     }
-
-    .about-values {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-top: 2.5rem;
-    }
-
-    .about-value {
-      display: flex;
-      align-items: flex-start;
-      gap: 1.2rem;
-      padding: 1.2rem 1.4rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      transition: var(--transition);
-    }
-
-    .about-value:hover {
-      border-color: var(--border-gold);
-      transform: translateX(6px);
-    }
-
-    .about-value-icon {
-      font-size: 1.5rem;
+    .pack-fidelite::before {
+      content: '✦';
+      color: var(--gold);
+      font-size: 0.65rem;
       flex-shrink: 0;
-      line-height: 1;
-      margin-top: 0.1rem;
     }
-
-    .about-value-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 0.2rem;
-    }
-
-    .about-value-desc {
-      font-size: 0.82rem;
+    .pack-cta { width: 100%; text-align: center; justify-content: center; margin-top: auto; }
+    .packs-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
+      font-style: italic;
     }
+    .packs-note::before { content: '* '; }
 
-    /* ============================================================
-       CONTACT SECTION
-    ============================================================ */
-    #contact {
-      background:
-        radial-gradient(ellipse 70% 50% at 50% 100%, var(--blue-glow) 0%, transparent 60%),
-        var(--bg-dark);
-    }
-
-    .contact-layout {
+    /* ─── AVIS ──────────────────────────────────────────────────── */
+    #avis { background: var(--bg-deep); }
+    .avis-grid {
       display: grid;
-      grid-template-columns: 1fr 1.5fr;
-      gap: 5rem;
-      align-items: start;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
     }
-
-    .contact-info {
-      padding-top: 0.5rem;
+    .avis-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 2.2rem;
+      transition: transform var(--transition), border-color var(--transition);
+      position: relative;
     }
-
-    .contact-item {
+    .avis-card::before {
+      content: '"';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 7rem;
+      color: var(--gold);
+      opacity: 0.12;
+      position: absolute;
+      top: -1rem;
+      left: 1.5rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .avis-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-border);
+    }
+    .avis-stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 1.2rem;
+    }
+    .avis-stars span { color: var(--gold); font-size: 0.9rem; }
+    .avis-text {
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: var(--text-sub);
+      line-height: 1.8;
+      margin-bottom: 1.8rem;
+      font-style: italic;
+    }
+    .avis-author {
       display: flex;
       align-items: center;
       gap: 1rem;
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--border);
     }
-
-    .contact-item:last-child { border-bottom: none; }
-
-    .contact-item-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--gold-pale);
-      border: 1px solid var(--border-gold);
-      border-radius: var(--radius-sm);
+    .avis-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dim), rgba(201,168,76,0.25));
+      border: 1px solid var(--gold-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      font-size: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
     }
-
-    .contact-item-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-    }
-
-    .contact-item-value {
+    .avis-info-name {
       font-size: 0.9rem;
-      color: var(--text-muted);
+      font-weight: 500;
+      color: var(--white);
     }
-
-    /* Form */
-    .contact-form {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2.8rem;
-      transition: var(--transition);
-    }
-
-    .contact-form:hover {
-      border-color: var(--border-gold);
-    }
-
-    .form-group {
-      margin-bottom: 1.4rem;
-    }
-
-    .form-label {
-      display: block;
+    .avis-info-role {
       font-size: 0.75rem;
-      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── AVANT/APRÈS ───────────────────────────────────────────── */
+    #avant-apres { background: var(--bg-dark); }
+    .audio-projects { display: flex; flex-direction: column; gap: 3rem; }
+    .audio-project-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 0.6rem;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
     }
-
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      background: var(--bg-deep);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text-primary);
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.9rem;
-      padding: 0.9rem 1.2rem;
-      outline: none;
-      transition: border-color var(--transition), box-shadow var(--transition);
-      appearance: none;
+    .audio-project-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gold-border);
     }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 130px;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px #c9922a15;
-    }
-
-    .form-input::placeholder,
-    .form-textarea::placeholder {
-      color: var(--text-dim);
-    }
-
-    .form-row {
+    .audio-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.2rem;
     }
-
-    /* ============================================================
-       FOOTER
-    ============================================================ */
-    footer {
-      background: #040609;
-      border-top: 1px solid var(--border);
-      padding-block: 3.5rem;
+    .audio-card {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      text-align: center;
+      transition: transform var(--transition);
+    }
+    .audio-card:hover { transform: translateY(-4px); }
+    .audio-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+    .audio-type {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .audio-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .audio-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+    audio {
+      width: 100%;
+      height: 40px;
+      border-radius: 8px;
+      outline: none;
+      opacity: 0.85;
+      transition: opacity var(--transition);
+      accent-color: var(--gold);
+    }
+    audio:hover { opacity: 1; }
+    .audio-placeholder {
+      background: rgba(201,168,76,0.06);
+      border: 1px dashed var(--gold-border);
+      border-radius: 8px;
+      padding: 0.9rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-style: italic;
+      margin-top: 0.6rem;
     }
 
+    /* ─── CONTACT ───────────────────────────────────────────────── */
+    #contact { background: var(--bg-deep); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-info p {
+      font-size: 0.95rem;
+      color: var(--text-sub);
+      font-weight: 300;
+      line-height: 1.9;
+      margin-bottom: 2rem;
+    }
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .contact-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.88rem;
+      color: var(--text-sub);
+    }
+    .contact-detail-item .icon {
+      width: 38px; height: 38px;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .form-group { margin-bottom: 1.4rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 0.9rem 1.1rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-main);
+      outline: none;
+      transition: border-color var(--transition), background var(--transition);
+      -webkit-appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23c9a84c' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+    .form-group select option { background: var(--bg-card2); color: var(--text-main); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.04);
+    }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(138,143,168,0.5); }
+    .form-submit { width: 100%; justify-content: center; margin-top: 0.5rem; }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--gold-border);
+      padding: 2.5rem 0;
+      background: var(--bg-deep);
+    }
     .footer-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 2rem;
-    }
-
-    .footer-brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      color: var(--text-primary);
-      letter-spacing: 0.06em;
-    }
-
-    .footer-brand span { color: var(--gold); }
-
-    .footer-copy {
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      margin-top: 0.3rem;
-    }
-
-    .footer-socials {
-      display: flex;
       gap: 1rem;
     }
-
-    .social-link {
-      width: 42px;
-      height: 42px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--gold); font-style: italic; }
+    .footer-copy {
+      font-size: 0.78rem;
       color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: var(--transition);
     }
-
-    .social-link:hover {
-      border-color: var(--border-gold);
-      color: var(--gold);
-      background: var(--gold-pale);
-      transform: translateY(-3px);
-    }
-
     .footer-links {
       display: flex;
-      gap: 1.8rem;
+      gap: 2rem;
+      list-style: none;
     }
-
     .footer-links a {
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      text-decoration: none;
-      letter-spacing: 0.06em;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
       transition: color var(--transition);
     }
-
     .footer-links a:hover { color: var(--gold); }
 
-    /* ============================================================
-       SCROLL REVEAL UTILITY
-    ============================================================ */
+    /* ─── Animations ─────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(0.7); }
+    }
+
+    /* Scroll reveal */
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(30px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
     }
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
 
-    /* ============================================================
-       RESPONSIVE
-    ============================================================ */
-    @media (max-width: 1024px) {
-      .services-grid { grid-template-columns: 1fr 1fr; }
-      .about-grid { grid-template-columns: 1fr; gap: 3.5rem; }
-      .about-visual { max-width: 420px; margin: 0 auto; }
-      .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+    /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .packs-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+      .avis-grid { grid-template-columns: 1fr; }
+      .audio-grid { grid-template-columns: 1fr; }
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     }
-
-    @media (max-width: 768px) {
-      section { padding-block: 70px; }
+    @media (max-width: 640px) {
       .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .services-grid { grid-template-columns: 1fr; max-width: 440px; margin-inline: auto; }
-      .form-row { grid-template-columns: 1fr; }
-      .footer-inner { flex-direction: column; align-items: flex-start; }
-      .footer-links { flex-wrap: wrap; }
-      .about-stat-row { flex-direction: column; }
+      .nav-burger { display: flex; }
+      .hero-title { font-size: 3.2rem; }
+      .section { padding: 4.5rem 0; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
     }
 
-    @media (max-width: 480px) {
-      .hero-actions { flex-direction: column; }
-      .contact-form { padding: 1.8rem; }
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(7,9,15,0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
     }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--text-sub);
+      letter-spacing: 0.05em;
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-close {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      transition: color var(--transition);
+    }
+    .mobile-close:hover { color: var(--gold); }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================
-       NAVIGATION
-  ============================================================ -->
-  <nav id="navbar">
+  <!-- ─── MOBILE MENU ─── -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="toggleMenu()">✕</button>
+    <a href="#offres" onclick="toggleMenu()">Offres</a>
+    <a href="#avis" onclick="toggleMenu()">Avis</a>
+    <a href="#avant-apres" onclick="toggleMenu()">Avant / Après</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+  </div>
+
+  <!-- ─── NAVIGATION ─── -->
+  <nav>
     <div class="container nav-inner">
-      <a href="#hero" class="nav-logo">Bourbon<span>&nbsp;Production</span></a>
+      <div class="nav-logo"><span>Bourbon</span> Production</div>
       <ul class="nav-links">
-        <li><a href="#services">Offres</a></li>
-        <li><a href="#about">À propos</a></li>
+        <li><a href="#offres">Offres</a></li>
+        <li><a href="#avis">Avis</a></li>
+        <li><a href="#avant-apres">Avant / Après</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <div class="hamburger" id="hamburger" aria-label="Menu" role="button" tabindex="0">
+      <div class="nav-burger" onclick="toggleMenu()">
         <span></span><span></span><span></span>
       </div>
     </div>
   </nav>
 
-  <!-- Mobile nav overlay -->
-  <div class="mobile-nav" id="mobileNav">
-    <a href="#services" onclick="closeMobileNav()">Offres</a>
-    <a href="#about"    onclick="closeMobileNav()">À propos</a>
-    <a href="#contact"  onclick="closeMobileNav()">Contact</a>
-  </div>
-
-
-  <!-- ============================================================
-       HERO
-  ============================================================ -->
-  <section id="hero">
+  <!-- ─── HERO ─── -->
+  <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-orb"></div>
-
-    <!-- Animated waveform decoration -->
-    <div class="hero-wave" aria-hidden="true">
-      <!-- JS will populate bars -->
-    </div>
-
-    <div class="container hero-content">
-      <div class="hero-eyebrow">
-        <div class="hero-eyebrow-line"></div>
-        <span class="hero-eyebrow-text">Studio de Production Musicale</span>
+    <div class="hero-line"></div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-eyebrow"><span>Studio de Mix & Mastering</span></div>
+        <h1 class="hero-title">
+          Bourbon<em>Production</em>
+        </h1>
+        <p class="hero-subtitle">
+          Mix &amp; Mastering professionnel<br>
+          <strong>L'excellence sonore à votre service.</strong><br>
+          Mix, mastering et production musicale de haute qualité — chaque projet traité avec précision, passion et professionnalisme.
+        </p>
+        <div class="hero-cta">
+          <a href="#offres" class="btn btn-primary">Découvrir les offres</a>
+          <a href="#contact" class="btn btn-outline">Nous contacter</a>
+        </div>
       </div>
-      <h1 class="hero-title">Bourbon<br>Production</h1>
-      <p class="hero-title-sub">L'excellence sonore à votre service</p>
-      <p class="hero-slogan">
-        Mix, mastering et production musicale de haute qualité — chaque projet traité avec précision, passion et professionnalisme.
-      </p>
-      <div class="hero-actions">
-        <a href="#services" class="btn-primary"><span>Découvrir nos offres</span></a>
-        <a href="#contact"  class="btn-outline">Nous contacter</a>
-      </div>
-    </div>
-
-    <div class="hero-scroll" aria-hidden="true">
-      <div class="hero-scroll-line"></div>
-      <span>Scroll</span>
     </div>
   </section>
 
-
-  <!-- ============================================================
-       SERVICES
-  ============================================================ -->
-  <section id="services">
+  <!-- ─── PACKS / OFFRES ─── -->
+  <section class="section" id="offres">
     <div class="container">
-      <div class="section-header centered reveal">
-        <div class="gold-line"></div>
-        <p class="section-label">Nos offres</p>
-        <h2 class="section-title">Choisissez votre pack</h2>
-        <p class="section-subtitle">Des formules adaptées à chaque étape de votre projet, du mix à la distribution digitale.</p>
+      <div class="section-header reveal">
+        <div class="section-label">Nos Packs</div>
+        <h2 class="section-title">Pack Mix &amp; Master</h2>
+        <p style="color:var(--text-muted);font-size:.9rem;max-width:480px;margin:0 auto">Choisissez le niveau d'accompagnement adapté à votre projet musical.</p>
+        <div class="section-divider"></div>
       </div>
 
-      <div class="services-grid">
+      <div class="packs-grid">
 
-        <!-- PACK STANDARD -->
-        <article class="pack-card" style="transition-delay: 0.1s">
+        <!-- STANDARD -->
+        <div class="pack-card reveal reveal-delay-1">
           <p class="pack-name">Pack Standard</p>
-          <div class="pack-price"><sup>€</sup>40</div>
+          <div class="pack-price">40<sub>€</sub></div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
             <li>Mix Voix (3 pistes max)</li>
             <li>Nettoyage Audio</li>
             <li>Compatibilité Support</li>
             <li>2 Retouches incluses</li>
-            <li class="highlight">Mastering <strong style="color:var(--gold)">OFFERT</strong></li>
           </ul>
-          <a href="#contact" class="btn-outline">Choisir ce pack</a>
-        </article>
+          <div class="pack-bonus">
+            <strong>🎁 Offert avec ce pack</strong>
+            Mastering OFFERT inclus
+          </div>
+          <a href="#contact" class="btn btn-outline pack-cta">Choisir ce pack</a>
+        </div>
 
-        <!-- PACK PROFESSIONNEL (featured) -->
-        <article class="pack-card featured" style="transition-delay: 0.2s">
+        <!-- PROFESSIONNEL -->
+        <div class="pack-card featured reveal reveal-delay-2">
           <div class="pack-badge">Populaire</div>
           <p class="pack-name">Pack Professionnel</p>
-          <div class="pack-price"><sup>€</sup>60</div>
+          <div class="pack-price">60<sub>€</sub></div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
             <li>Mix pro complet</li>
             <li>10 pistes max</li>
             <li>Nettoyage pro Audio</li>
             <li>Mastering pro</li>
-            <li>5 retouches incluses</li>
+            <li>5 Retouches incluses</li>
             <li>Arrangement détaillé et minutieux</li>
-            <li class="highlight">–10% sur prochain pack</li>
           </ul>
-          <a href="#contact" class="btn-primary"><span>Choisir ce pack</span></a>
-        </article>
+          <div class="pack-fidelite">Fidélité : –10% sur le prochain pack</div>
+          <a href="#contact" class="btn btn-primary pack-cta">Choisir ce pack</a>
+        </div>
 
-        <!-- PACK AVANCÉ -->
-        <article class="pack-card" style="transition-delay: 0.3s">
+        <!-- AVANCÉ -->
+        <div class="pack-card reveal reveal-delay-3">
           <p class="pack-name">Pack Avancé</p>
-          <div class="pack-price"><sup>€</sup>90</div>
+          <div class="pack-price">90<sub>€</sub></div>
           <div class="pack-divider"></div>
           <ul class="pack-features">
             <li>Mix avancé complet</li>
             <li>Pistes illimitées</li>
-            <li>Nettoyage avancé</li>
+            <li>Nettoyage avancé et rigoureux</li>
             <li>Mastering avancé</li>
-            <li>Retouches + suivi personnalisé</li>
-            <li>Traitement minutieux</li>
-            <li>Distribution digitale <em style="color:var(--text-dim)">(sous condition)</em></li>
-            <li class="highlight">–15% sur prochain pack</li>
+            <li>Retouches, suivi et accompagnement</li>
+            <li>Traitement minutieux &amp; avancé</li>
           </ul>
-          <a href="#contact" class="btn-outline">Choisir ce pack</a>
-        </article>
+          <div class="pack-bonus">
+            <strong>🎁 Bonus exclusif</strong>
+            Distribution digitale prise en charge (sous condition)
+          </div>
+          <div class="pack-fidelite">Fidélité : –15% sur le prochain pack</div>
+          <a href="#contact" class="btn btn-outline pack-cta">Choisir ce pack</a>
+        </div>
 
       </div>
+
+      <p class="packs-note reveal">Offres valables uniquement pour un premier achat. Avantages fidélité valables 2 mois après la commande.</p>
     </div>
   </section>
 
-
-  <!-- ============================================================
-       ABOUT
-  ============================================================ -->
-  <section id="about">
-    <div class="container">
-      <div class="about-grid">
-
-        <!-- Visual column -->
-        <div class="about-visual reveal">
-          <div class="about-visual-main">
-            <div class="vinyl" aria-hidden="true"></div>
-            <div class="sound-bars" id="soundBars" aria-hidden="true"></div>
-          </div>
-          <div class="about-stat-row">
-            <div class="about-stat">
-              <div class="about-stat-num">200+</div>
-              <div class="about-stat-label">Projets livrés</div>
-            </div>
-            <div class="about-stat">
-              <div class="about-stat-num">5★</div>
-              <div class="about-stat-label">Satisfaction</div>
-            </div>
-            <div class="about-stat">
-              <div class="about-stat-num">72h</div>
-              <div class="about-stat-label">Délai moyen</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Text column -->
-        <div class="about-body reveal">
-          <div class="gold-line"></div>
-          <p class="section-label">À propos</p>
-          <h2 class="section-title">Une oreille d'exception, au service de votre musique</h2>
-          <p>
-            Bourbon Production est née d'une passion profonde pour le son et d'une exigence absolue de qualité. Notre studio accompagne artistes émergents comme confirmés dans la réalisation de projets musicaux qui marquent les esprits.
-          </p>
-          <p>
-            Chaque piste reçoit une attention méticuleuse — des basses les plus profondes aux aigus les plus fins. Nous croyons que derrière chaque note se cache une émotion à révéler, et notre rôle est de vous aider à la transmettre avec clarté et puissance.
-          </p>
-
-          <div class="about-values">
-            <div class="about-value">
-              <div class="about-value-icon">🎚</div>
-              <div>
-                <div class="about-value-title">Précision technique</div>
-                <div class="about-value-desc">Mix et mastering aux standards de l'industrie, pour un rendu professionnel sur tous supports.</div>
-              </div>
-            </div>
-            <div class="about-value">
-              <div class="about-value-icon">🎯</div>
-              <div>
-                <div class="about-value-title">Accompagnement personnalisé</div>
-                <div class="about-value-desc">Un suivi humain et attentif, du premier échange à la livraison finale.</div>
-              </div>
-            </div>
-            <div class="about-value">
-              <div class="about-value-icon">✨</div>
-              <div>
-                <div class="about-value-title">Créativité sans limite</div>
-                <div class="about-value-desc">Nous apportons une vision artistique qui valorise votre identité sonore unique.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- ============================================================
-       CONTACT
-  ============================================================ -->
-  <section id="contact">
+  <!-- ─── AVIS ─── -->
+  <section class="section" id="avis">
     <div class="container">
       <div class="section-header reveal">
-        <div class="gold-line"></div>
-        <p class="section-label">Contact</p>
-        <h2 class="section-title">Lançons votre projet</h2>
-        <p class="section-subtitle">Décrivez-nous votre projet et nous revenons vers vous sous 24h.</p>
+        <div class="section-label">Témoignages</div>
+        <h2 class="section-title">Ce que disent nos artistes</h2>
+        <div class="section-divider"></div>
       </div>
 
-      <div class="contact-layout">
+      <div class="avis-grid">
 
-        <!-- Info column -->
-        <div class="contact-info reveal">
-          <div class="contact-item">
-            <div class="contact-item-icon">📧</div>
-            <div>
-              <div class="contact-item-label">Email</div>
-              <div class="contact-item-value">contact@bourbon-production.fr</div>
-            </div>
+        <div class="avis-card reveal reveal-delay-1">
+          <div class="avis-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">📱</div>
+          <p class="avis-text">Un travail exceptionnel. Mon EP sonne maintenant comme une production internationale. La qualité du mastering a bluffé tout mon entourage. Je recommande sans hésiter.</p>
+          <div class="avis-author">
+            <div class="avis-avatar">K</div>
             <div>
-              <div class="contact-item-label">Téléphone</div>
-              <div class="contact-item-value">+33 6 00 00 00 00</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">📍</div>
-            <div>
-              <div class="contact-item-label">Localisation</div>
-              <div class="contact-item-value">La Réunion – France</div>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">🕐</div>
-            <div>
-              <div class="contact-item-label">Disponibilité</div>
-              <div class="contact-item-value">Lun–Sam, 9h – 19h</div>
+              <div class="avis-info-name">Kalyx</div>
+              <div class="avis-info-role">Artiste RnB &amp; Soul</div>
             </div>
           </div>
         </div>
 
-        <!-- Form -->
-        <div class="reveal">
-          <form class="contact-form" novalidate>
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label" for="name">Nom</label>
-                <input class="form-input" id="name" type="text" placeholder="Votre nom" autocomplete="name" />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="email">Email</label>
-                <input class="form-input" id="email" type="email" placeholder="votre@email.com" autocomplete="email" />
-              </div>
+        <div class="avis-card reveal reveal-delay-2">
+          <div class="avis-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="avis-text">Réactivité, professionnalisme et résultat au-delà de mes attentes. Le suivi personnalisé m'a permis d'obtenir exactement le son que je recherchais pour mon projet rap.</p>
+          <div class="avis-author">
+            <div class="avis-avatar">M</div>
+            <div>
+              <div class="avis-info-name">Maro B.</div>
+              <div class="avis-info-role">Rappeur indépendant</div>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="pack">Pack souhaité</label>
-              <input class="form-input" id="pack" type="text" placeholder="Standard / Professionnel / Avancé" />
+          </div>
+        </div>
+
+        <div class="avis-card reveal reveal-delay-3">
+          <div class="avis-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="avis-text">Bourbon Production a transformé ma maquette en un véritable single radio-ready. La qualité est là, le prix est juste, et le contact humain est irréprochable.</p>
+          <div class="avis-author">
+            <div class="avis-avatar">S</div>
+            <div>
+              <div class="avis-info-name">Sofia D.</div>
+              <div class="avis-info-role">Chanteuse Afropop</div>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="message">Votre projet</label>
-              <textarea class="form-textarea" id="message" placeholder="Décrivez votre projet, vos besoins, vos délais…"></textarea>
-            </div>
-            <button type="submit" class="btn-primary" style="width:100%; justify-content:center">
-              <span>Envoyer le message</span>
-            </button>
-          </form>
+          </div>
         </div>
 
       </div>
     </div>
   </section>
 
+  <!-- ─── AVANT / APRÈS ─── -->
+  <section class="section" id="avant-apres">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Démonstration</div>
+        <h2 class="section-title">Avant <span class="gold">/</span> Après</h2>
+        <p style="color:var(--text-muted);font-size:.9rem;max-width:500px;margin:0 auto">Écoutez la différence. La même piste, avant et après traitement Bourbon Production.</p>
+        <div class="section-divider"></div>
+      </div>
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
+      <div class="audio-projects">
+
+        <!-- PROJET 1 -->
+        <div class="reveal">
+          <div class="audio-project-label">Projet 1 — Rap / Trap</div>
+          <div class="audio-grid">
+            <div class="audio-card">
+              <div class="audio-icon">🎙️</div>
+              <div class="audio-type">Avant traitement</div>
+              <h3 class="audio-title">Piste brute</h3>
+              <p class="audio-desc">Voix non traitée, mix brut.</p>
+              <audio controls>
+                <source src="projet1-avant.mp3" type="audio/mpeg" />
+                <source src="projet1-avant.wav" type="audio/wav" />
+              </audio>
+              <p class="audio-placeholder">⟵ Remplacez « projet1-avant.mp3 »</p>
+            </div>
+            <div class="audio-card">
+              <div class="audio-icon">🎚️</div>
+              <div class="audio-type">Après traitement</div>
+              <h3 class="audio-title">Mixée &amp; Masterisée</h3>
+              <p class="audio-desc">Nettoyage, mix et mastering pro.</p>
+              <audio controls>
+                <source src="projet1-apres.mp3" type="audio/mpeg" />
+                <source src="projet1-apres.wav" type="audio/wav" />
+              </audio>
+              <p class="audio-placeholder">⟵ Remplacez « projet1-apres.mp3 »</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROJET 2 -->
+        <div class="reveal reveal-delay-1">
+          <div class="audio-project-label">Projet 2 — RnB / Soul</div>
+          <div class="audio-grid">
+            <div class="audio-card">
+              <div class="audio-icon">🎙️</div>
+              <div class="audio-type">Avant traitement</div>
+              <h3 class="audio-title">Piste brute</h3>
+              <p class="audio-desc">Voix non traitée, mix brut.</p>
+              <audio controls>
+                <source src="projet2-avant.mp3" type="audio/mpeg" />
+                <source src="projet2-avant.wav" type="audio/wav" />
+              </audio>
+              <p class="audio-placeholder">⟵ Remplacez « projet2-avant.mp3 »</p>
+            </div>
+            <div class="audio-card">
+              <div class="audio-icon">🎚️</div>
+              <div class="audio-type">Après traitement</div>
+              <h3 class="audio-title">Mixée &amp; Masterisée</h3>
+              <p class="audio-desc">Nettoyage, mix et mastering pro.</p>
+              <audio controls>
+                <source src="projet2-apres.mp3" type="audio/mpeg" />
+                <source src="projet2-apres.wav" type="audio/wav" />
+              </audio>
+              <p class="audio-placeholder">⟵ Remplacez « projet2-apres.mp3 »</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">Démarrons votre projet</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="contact-inner">
+
+        <div class="contact-info reveal">
+          <div class="section-label">Parlons-en</div>
+          <h3 class="section-title" style="font-size:1.8rem">On est là pour vous</h3>
+          <p>Décrivez votre projet musical et le pack qui vous convient. Nous revenons vers vous dans les 24h pour discuter de vos besoins et démarrer la collaboration.</p>
+          <div class="contact-detail">
+            <div class="contact-detail-item">
+              <div class="icon">✉</div>
+              <span>contact@bourbonproduction.com</span>
+            </div>
+            <div class="contact-detail-item">
+              <div class="icon">⏱</div>
+              <span>Réponse sous 24h ouvrées</span>
+            </div>
+            <div class="contact-detail-item">
+              <div class="icon">🎵</div>
+              <span>Tous styles musicaux acceptés</span>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form reveal reveal-delay-2" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label for="nom">Nom / Nom d'artiste</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom ou alias" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Adresse email</label>
+            <input type="email" id="email" name="email" placeholder="votre@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="pack">Pack souhaité</label>
+            <select id="pack" name="pack" required>
+              <option value="" disabled selected>Sélectionnez un pack</option>
+              <option value="standard">Pack Standard — 40€</option>
+              <option value="professionnel">Pack Professionnel — 60€</option>
+              <option value="avance">Pack Avancé — 90€</option>
+              <option value="autre">Autre / Renseignement</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Votre projet</label>
+            <textarea id="message" name="message" placeholder="Décrivez votre projet, le style musical, vos attentes..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">Envoyer le message</button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
   <footer>
     <div class="container footer-inner">
-
-      <div>
-        <div class="footer-brand">Bourbon<span>&nbsp;Production</span></div>
-        <div class="footer-copy">© 2025 Bourbon Production. Tous droits réservés.</div>
-      </div>
-
-      <div class="footer-socials">
-        <!-- Instagram -->
-        <a href="#" class="social-link" aria-label="Instagram">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <!-- YouTube -->
-        <a href="#" class="social-link" aria-label="YouTube">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
-            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <!-- SoundCloud -->
-        <a href="#" class="social-link" aria-label="SoundCloud">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M1.175 12.225c-.017 0-.034.002-.051.004A.6.6 0 0 0 .6 12.8v.05l.522 3.4-.522 3.25a.6.6 0 0 0 .524.662c.017.002.034.003.051.003.298 0 .54-.22.574-.518L2.2 16.25l-.451-3.55a.576.576 0 0 0-.574-.475zm2.3-.25a.613.613 0 0 0-.613.6L2.538 16.2l.324 3.525c.016.321.28.575.613.575a.613.613 0 0 0 .613-.575L4.4 16.2l-.313-3.625a.613.613 0 0 0-.612-.6zm2.3-.35a.65.65 0 0 0-.65.65L4.8 16.2l.325 3.8c.01.352.29.625.65.625a.65.65 0 0 0 .65-.625l.363-3.8-.363-3.925a.65.65 0 0 0-.65-.65zm2.313-.237a.688.688 0 0 0-.688.688L7.075 16.2l.325 4.075a.688.688 0 0 0 1.375 0L9.1 16.2 8.775 12.076a.688.688 0 0 0-.687-.688zm2.262.025a.725.725 0 0 0-.725.725L9.3 16.2l.325 4.3a.725.725 0 0 0 1.45 0l.363-4.3-.363-3.787a.725.725 0 0 0-.725-.75zm2.3-.475a.762.762 0 0 0-.763.763l-.337 3.5.337 4.5a.762.762 0 0 0 1.525 0l.375-4.5-.375-3.5a.763.763 0 0 0-.762-.763zm2.3.325a.8.8 0 0 0-.8.8l-.325 3.175.325 4.7a.8.8 0 0 0 1.6 0l.363-4.7-.363-3.175a.8.8 0 0 0-.8-.8zm2.087-.05a.837.837 0 0 0-.837.838l-.313 3.225.313 4.887a.838.838 0 0 0 1.675 0l.35-4.887-.35-3.225a.837.837 0 0 0-.838-.838zm2.213-.225a.875.875 0 0 0-.875.875l-.3 3.45.3 4.975a.875.875 0 0 0 1.75 0l.338-4.975-.338-3.45a.875.875 0 0 0-.875-.875zm2.05 1.35c-.45 0-.875.15-1.2.4A5.95 5.95 0 0 0 18 11.1a5.95 5.95 0 0 0-5.95-5.95c-.437 0-.862.05-1.275.138V20.55h11.463C23.212 20.55 24 19.762 24 18.8a2.75 2.75 0 0 0-2.75-2.75z"/>
-          </svg>
-        </a>
-        <!-- Facebook -->
-        <a href="#" class="social-link" aria-label="Facebook">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-          </svg>
-        </a>
-      </div>
-
-      <div class="footer-links">
-        <a href="#">Mentions légales</a>
-        <a href="#">Politique de confidentialité</a>
-        <a href="#">CGV</a>
-      </div>
-
+      <div class="footer-logo"><span>Bourbon</span> Production</div>
+      <p class="footer-copy">© 2026 Bourbon Production — Tous droits réservés</p>
+      <ul class="footer-links">
+        <li><a href="#offres">Offres</a></li>
+        <li><a href="#avis">Avis</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
     </div>
   </footer>
 
-
-  <!-- ============================================================
-       JAVASCRIPT (UX enhancements)
-  ============================================================ -->
+  <!-- ─── JAVASCRIPT ─── -->
   <script>
-    // --- Navbar scroll state ---
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive: true });
-
-    // --- Hamburger / mobile nav ---
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
-    hamburger.addEventListener('click', () => mobileNav.classList.toggle('open'));
-    hamburger.addEventListener('keydown', e => { if (e.key === 'Enter') mobileNav.classList.toggle('open'); });
-    function closeMobileNav() { mobileNav.classList.remove('open'); }
-
-    // --- Hero waveform bars ---
-    const waveContainer = document.querySelector('.hero-wave');
-    for (let i = 0; i < 60; i++) {
-      const bar = document.createElement('div');
-      bar.className = 'hero-wave-bar';
-      const h = Math.random() * 60 + 10;
-      bar.style.height = h + 'px';
-      bar.style.animationDelay = (Math.random() * 1.4) + 's';
-      bar.style.animationDuration = (0.7 + Math.random() * 0.8) + 's';
-      bar.style.opacity = (0.3 + Math.random() * 0.7);
-      waveContainer.appendChild(bar);
+    /* Mobile menu */
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
     }
 
-    // --- Sound bars (about section) ---
-    const soundBars = document.getElementById('soundBars');
-    const barHeights = [20, 35, 50, 38, 62, 45, 70, 55, 40, 28, 48, 65, 30, 52, 44];
-    barHeights.forEach((h, i) => {
-      const bar = document.createElement('div');
-      bar.className = 'sound-bar';
-      bar.style.height = h + 'px';
-      bar.style.animationDelay = (i * 0.06) + 's';
-      bar.style.animationDuration = (0.5 + Math.random() * 0.6) + 's';
-      soundBars.appendChild(bar);
-    });
-
-    // --- Scroll reveal (IntersectionObserver) ---
-    const revealEls = document.querySelectorAll('.reveal, .pack-card');
+    /* Scroll reveal */
+    const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
     }, { threshold: 0.12 });
     revealEls.forEach(el => observer.observe(el));
 
-    // --- Contact form feedback ---
-    document.querySelector('.contact-form').addEventListener('submit', function(e) {
+    /* Form submit placeholder */
+    function handleSubmit(e) {
       e.preventDefault();
-      const btn = this.querySelector('button[type=submit]');
-      btn.style.opacity = '0.6';
+      const btn = e.target.querySelector('button[type=submit]');
+      btn.textContent = '✓ Message envoyé !';
+      btn.style.background = 'linear-gradient(135deg, #2d6a2d, #4caf50)';
       btn.disabled = true;
-      btn.querySelector('span').textContent = 'Envoi en cours…';
       setTimeout(() => {
-        btn.querySelector('span').textContent = 'Message envoyé ✓';
-        btn.style.opacity = '1';
-      }, 1500);
-    });
+        btn.textContent = 'Envoyer le message';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3500);
+    }
   </script>
-
 </body>
 </html>
